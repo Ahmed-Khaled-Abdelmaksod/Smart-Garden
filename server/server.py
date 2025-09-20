@@ -2,12 +2,13 @@
 import paho.mqtt.client as mqtt
 
 broker_ip = 'localhost'
-file = open('logs')
+# file = open('logs')
 def parseResponseMoney(data):
-    data_list = data.split('\n').slice(',')
-    timestamp = data_list[0]
-    money = data_list[1]
-    return (timestamp,money)
+    print(list)
+        # data_list = data.split('\n').slice(',')
+        # timestamp = data_list[0]
+        # money = data_list[1]
+        # return (timestamp,money)
 
 def on_message_recieve(client, userdata, message):
     if message.topic == "smart-garden/Temperature":

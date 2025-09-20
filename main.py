@@ -3,11 +3,16 @@ import time
 from gpiozero  import LED,DistanceSensor
 import math
 import random
+import paho.mqtt.client as mqtt
+
 #from DIYables_MicroPython_LCD_I2C import LCD_I2C
 #from machine import I2C,Pin
 
 #rtc_sda = Pin(2)
 #rtc_scl = Pin(3)
+broker_ip = '192.168.137.178'
+client = mqtt.Client("Smart-Garden")
+client.connect(broker_ip,1883)
 
 enter_ultra = DistanceSensor(echo=14,trigger=15)
 outer_ultra = DistanceSensor(echo=18,trigger=23)
@@ -57,12 +62,14 @@ def get_ultras_distance():
     print("OUter Dis:" + str(outing_distance))
     return (entering_distance,outing_distance)
 while True:
+    client.publish("smart-garden/Money",f"{timestamp},{money}")
     ldr = random.randint(50,90)
     dht = random.randint(18,35)
     entering_distance , outing_distance = get_ultras_distance()
     if entering_distance < 8 and people_inside < people_max_capacity:
        people_inside += 1
        money += child_ticket
+       timestamp = time.time()
        print("Money : "+str(money))
 
     elif entering_distance < 15 and people_inside < people_max_capacity:
