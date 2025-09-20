@@ -40,6 +40,15 @@ child_ticket = 5
 money = 0.0
 people_inside = 0
 
+# Pin definitions   #smoke sensor pin definition
+SMOKE_PIN = 21
+LED_SMOKE = 12
+
+# Setup     #smoke sensor setup
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(SMOKE_PIN, GPIO.IN)
+GPIO.setup(LED_SMOKE, GPIO.OUT)
+
 def get_ultras_distance():
     
     entering_distance = (enter_ultra.distance * 100)
@@ -82,3 +91,12 @@ while True:
     else:
        fan_sig.off()
     time.sleep(0.6)
+    #Smoke sensor reading
+    if GPIO.input(SMOKE_PIN) == 0:
+      print("Smoke detected!")
+      GPIO.output(LED_SMOKE, GPIO.HIGH)
+    else:
+      print("No smoke")
+      GPIO.output(LED_SMOKE, GPIO.LOW)
+    time.sleep(1)
+
