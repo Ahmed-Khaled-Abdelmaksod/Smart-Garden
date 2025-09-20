@@ -53,6 +53,7 @@ def get_ultras_distance():
     print("OUter Dis:" + str(outing_distance))
     return (entering_distance,outing_distance)
 while True:
+    client.publish("smart-garden/Money",f"{timestamp},{money}")
     ldr = random.randint(50,90)
     dht = random.randint(18,35)
     entering_distance , outing_distance = get_ultras_distance()
@@ -60,7 +61,6 @@ while True:
        people_inside += 1
        money += child_ticket
        timestamp = time.time()
-       client.publish("smart-garden/Money",f"{timestamp},{money}")
        print("Money : "+str(money))
 
     elif entering_distance < 15 and people_inside < people_max_capacity:
